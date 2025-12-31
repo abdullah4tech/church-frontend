@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Church Admin Dashboard</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-display {
+      font-family: 'Playfair Display', serif;
+    }
+    .glassmorphism {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="bg-gray-50 overflow-y-hidden">
+  <div class="h-screen flex flex-col bg-gray-50 overflow-hidden">
+    <!-- Top Navigation (Fixed) -->
+    <header class="bg-white shadow-sm z-10 flex-shrink-0">
+      <div class="container mx-auto px-4">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center">
+            <h1 class="text-xl font-semibold text-gray-900">Church Admin Dashboard</h1>
+          </div>
+          <div class="flex items-center space-x-4">
+            <button id="create-event-btn" class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center">
+              <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
+              Create Event
+            </button>
+            <button id="upload-images-btn" class="px-4 py-2 bg-white border border-gray-300 text-sm font-medium rounded-md text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center">
+              <i data-lucide="upload" class="w-4 h-4 mr-2"></i>
+              Upload Images
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="flex-1 overflow-y-auto p-6 bg-gray-50">
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Total Events</p>
+              <p id="total-events" class="mt-1 text-3xl font-semibold text-gray-900">0</p>
+            </div>
+            <div class="p-3 rounded-lg bg-indigo-100 text-indigo-600">
+              <i data-lucide="calendar" class="w-6 h-6"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Upcoming Events</p>
+              <p id="upcoming-events" class="mt-1 text-3xl font-semibold text-gray-900">0</p>
+            </div>
+            <div class="p-3 rounded-lg bg-green-100 text-green-600">
+              <i data-lucide="calendar-plus" class="w-6 h-6"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Gallery Images</p>
+              <p id="total-images" class="mt-1 text-3xl font-semibold text-gray-900">0</p>
+            </div>
+            <div class="p-3 rounded-lg bg-yellow-100 text-yellow-600">
+              <i data-lucide="image" class="w-6 h-6"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Storage Used</p>
+              <p id="storage-used" class="mt-1 text-3xl font-semibold text-gray-900">0 MB</p>
+            </div>
+            <div class="p-3 rounded-lg bg-purple-100 text-purple-600">
+              <i data-lucide="hard-drive" class="w-6 h-6"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Events Section -->
+      <div id="events" class="bg-white rounded-xl shadow-sm p-6 mb-8 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-800">Upcoming Events</h2>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Event Name</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Day & Time</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
+                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="events-list" class="bg-white divide-y divide-gray-200">
+              <!-- Events will be dynamically inserted here -->
+              <tr class="animate-pulse">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="h-4 bg-gray-200 rounded w-2/3"></div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="h-8 w-8 bg-gray-200 rounded-full"></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Gallery Preview -->
+      <div id="gallery" class="bg-white rounded-xl shadow-sm p-6 border border-gray-100">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-800">Recent Gallery Images</h2>
+          <div class="flex space-x-2">
+            <button class="px-3 py-1 text-sm font-medium text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors">
+              View All
+            </button>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4" id="gallery-grid">
+          <!-- Gallery items will be dynamically inserted here -->
+          <div class="aspect-square bg-gray-100 rounded-lg animate-pulse"></div>
+          <div class="aspect-square bg-gray-100 rounded-lg animate-pulse"></div>
+          <div class="aspect-square bg-gray-100 rounded-lg animate-pulse"></div>
+          <div class="aspect-square bg-gray-100 rounded-lg animate-pulse"></div>
+          <div class="aspect-square bg-gray-100 rounded-lg animate-pulse"></div>
+          <div class="aspect-square bg-gray-100 rounded-lg animate-pulse"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Create Event Modal -->
+  <div id="event-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900">Create New Event</h3>
+          <button type="button" id="close-event-modal" class="text-gray-400 hover:text-gray-500">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        
+        <form id="event-form" class="space-y-4">
+          <div>
+            <label for="event-title" class="block text-sm font-medium text-gray-700 mb-1">Event Title *</label>
+            <input type="text" id="event-title" name="title" required 
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+          </div>
+          
+          <div>
+            <label for="event-description" class="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <textarea id="event-description" name="description" rows="3"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+          </div>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="event-date" class="block text-sm font-medium text-gray-700 mb-1">Day *</label>
+              <input type="text" id="event-date" name="date" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                     placeholder="e.g., Every Sunday">
+            </div>
+            <div>
+              <label for="event-time" class="block text-sm font-medium text-gray-700 mb-1">Time *</label>
+              <input type="text" id="event-time" name="time" required
+                     class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                     placeholder="e.g., 10:00 AM - 12:00 PM">
+            </div>
+          </div>
+          
+          <div>
+            <label for="event-location" class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+            <input type="text" id="event-location" name="location"
+                   class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                   placeholder="e.g., 160 OFF BAI BUREH ROAD, KISSY">
+          </div>
+          
+          <div class="flex justify-end space-x-3 pt-4">
+            <button type="button" id="cancel-event" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Cancel
+            </button>
+            <button type="submit" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center">
+              <i data-lucide="plus" class="w-4 h-4 mr-2"></i>
+              Create Event
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Upload Images Modal -->
+  <div id="upload-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl w-full max-w-2xl mx-4 max-h-[90vh] flex flex-col">
+      <div class="p-6 flex-shrink-0">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-semibold text-gray-900">Upload Images</h3>
+          <button type="button" id="close-upload-modal" class="text-gray-400 hover:text-gray-500">
+            <i data-lucide="x" class="w-5 h-5"></i>
+          </button>
+        </div>
+        
+        <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-indigo-500 transition-colors">
+          <div class="space-y-2">
+            <div class="mx-auto w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
+              <i data-lucide="upload" class="w-6 h-6 text-indigo-600"></i>
+            </div>
+            <h4 class="text-lg font-medium text-gray-900">Drag and drop files here</h4>
+            <p class="text-sm text-gray-500">or <span class="text-indigo-600 font-medium">browse files</span></p>
+            <p class="text-xs text-gray-400">Supports JPG, PNG up to 10MB</p>
+          </div>
+          <input type="file" id="file-input" class="hidden" multiple accept="image/jpeg,image/png,image/webp">
+        </div>
+      </div>
+      
+      <div id="preview-container" class="border-t border-gray-200 p-6 flex-1 flex flex-col overflow-hidden">
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="text-sm font-medium text-gray-700">Selected Images <span id="selected-count" class="text-gray-500">(0)</span></h4>
+          <button type="button" id="clear-selection" class="text-sm text-red-600 hover:text-red-700 flex items-center">
+            <i data-lucide="trash-2" class="w-4 h-4 mr-1"></i>
+            Clear All
+          </button>
+        </div>
+        
+        <div id="image-previews" class="space-y-4 flex-1 overflow-y-auto pr-2">
+          <div class="text-center py-12 text-gray-500">
+            <i data-lucide="image" class="w-10 h-10 mx-auto mb-2 text-gray-300"></i>
+            <p>No images selected</p>
+            <p class="text-sm text-gray-400 mt-1">Drag and drop images or click to browse</p>
+          </div>
+        </div>
+        
+        <div class="flex justify-end space-x-3 pt-4 mt-4 border-t border-gray-200">
+          <button type="button" id="cancel-upload" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Cancel
+          </button>
+          <button type="button" id="start-upload" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 flex items-center disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+            <i data-lucide="upload" class="w-4 h-4 mr-2"></i>
+            <span>Upload <span id="upload-count">0</span> <span id="upload-text">Images</span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg transform translate-y-10 opacity-0 transition-all duration-300 flex items-center space-x-3 z-50">
+    <i data-lucide="check-circle" class="w-5 h-5"></i>
+    <span id="toast-message">Event created successfully!</span>
+  </div>
+
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // API Configuration
+    const API_BASE = 'https://church-backend-abdullah4tech5930-m4uqi7dg.leapcell.dev/api/v1';
+    
+    // Initialize data on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchEvents();
+      fetchGalleryImages();
+      
+      // Initialize Lucide icons
+      lucide.createIcons();
+      
+      // Get modal and button elements
+      const eventModal = document.getElementById('event-modal');
+      const uploadModal = document.getElementById('upload-modal');
+      const createEventBtn = document.getElementById('create-event-btn');
+      const uploadImagesBtn = document.getElementById('upload-images-btn');
+      const closeEventModal = document.getElementById('close-event-modal');
+      const closeUploadModal = document.getElementById('close-upload-modal');
+      const cancelEvent = document.getElementById('cancel-event');
+      const cancelUpload = document.getElementById('cancel-upload');
+      
+      // Create Event button click handler
+      if (createEventBtn && eventModal) {
+        createEventBtn.addEventListener('click', () => {
+          eventModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        });
+      }
+      
+      // Upload Images button click handler
+      if (uploadImagesBtn && uploadModal) {
+        uploadImagesBtn.addEventListener('click', () => {
+          uploadModal.classList.remove('hidden');
+          document.body.style.overflow = 'hidden';
+        });
+      }
+      
+      // Close modals
+      const closeModal = (modal) => {
+        if (modal) {
+          modal.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+        }
+      };
+      
+      if (closeEventModal && eventModal) {
+        closeEventModal.addEventListener('click', () => closeModal(eventModal));
+      }
+      
+      if (closeUploadModal && uploadModal) {
+        closeUploadModal.addEventListener('click', () => closeModal(uploadModal));
+      }
+      
+      if (cancelEvent && eventModal) {
+        cancelEvent.addEventListener('click', () => closeModal(eventModal));
+      }
+      
+      if (cancelUpload && uploadModal) {
+        cancelUpload.addEventListener('click', () => closeModal(uploadModal));
+      }
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target === eventModal) closeModal(eventModal);
+        if (e.target === uploadModal) closeModal(uploadModal);
+      });
+      
+      // Reset upload form when modal is closed
+      document.getElementById('close-upload-modal').addEventListener('click', () => {
+        selectedFiles = [];
+        updatePreviews();
+        updateCounters();
+      });
+      
+      document.getElementById('cancel-upload').addEventListener('click', () => {
+        selectedFiles = [];
+        updatePreviews();
+        updateCounters();
+      });
+      
+      // Fetch stats
+      Promise.all([
+        fetch(`${API_BASE}/events/`).then(res => res.json()),
+        fetch(`${API_BASE}/images/`).then(res => res.json())
+      ]).then(([events, images]) => {
+        // Update stats
+        document.getElementById('total-events').textContent = events.length;
+        document.getElementById('total-images').textContent = images.length;
+        
+        // Calculate upcoming events (in the next 30 days)
+        const now = new Date();
+        const upcoming = events.filter(event => {
+          const eventDate = new Date(event.date);
+          return eventDate >= now && eventDate <= new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+        });
+        document.getElementById('upcoming-events').textContent = upcoming.length;
+      });
+    });
+    
+    // DOM Elements
+    const eventModal = document.getElementById('event-modal');
+    const uploadModal = document.getElementById('upload-modal');
+    const createEventBtn = document.getElementById('create-event-btn');
+    const uploadImagesBtn = document.getElementById('upload-images-btn');
+    const closeEventModal = document.getElementById('close-event-modal');
+    const closeUploadModal = document.getElementById('close-upload-modal');
+    const cancelEvent = document.getElementById('cancel-event');
+    const cancelUpload = document.getElementById('cancel-upload');
+    const eventForm = document.getElementById('event-form');
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreviews = document.getElementById('image-previews');
+    const startUpload = document.getElementById('start-upload');
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toast-message');
+    
+    // State
+    let selectedFiles = [];
+    
+    // Global functions for preview and counter updates
+    function updatePreviews() {
+      const imagePreviews = document.getElementById('image-previews');
+      const dropZone = document.getElementById('drop-zone');
+      const previewContainer = document.getElementById('preview-container');
+      
+      // Clear existing previews
+      imagePreviews.innerHTML = '';
+      
+      if (selectedFiles.length === 0) {
+        imagePreviews.innerHTML = `
+          <div class="text-center py-12 text-gray-500">
+            <i data-lucide="image" class="w-10 h-10 mx-auto mb-2 text-gray-300"></i>
+            <p>No images selected</p>
+            <p class="text-sm text-gray-400 mt-1">Drag and drop images or click to browse</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // Add preview for each file
+      selectedFiles.forEach((file, index) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const preview = document.createElement('div');
+          preview.className = 'border border-gray-200 rounded-lg overflow-hidden mb-4';
+          preview.innerHTML = `
+            <div class="relative group">
+              <img src="${e.target.result}" alt="${file.name}" class="w-full h-40 object-cover">
+              <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                <button class="text-white hover:text-red-400 p-2 remove-image" data-index="${index}" title="Remove">
+                  <i data-lucide="trash-2" class="w-5 h-5"></i>
+                </button>
+              </div>
+            </div>
+            <div class="p-3">
+              <input type="text" 
+                     class="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-indigo-500" 
+                     placeholder="Add description" 
+                     data-file-name="${file.name}">
+            </div>
+          `;
+          
+          // Add remove button handler
+          preview.querySelector('.remove-image').addEventListener('click', (e) => {
+            e.stopPropagation();
+            selectedFiles.splice(index, 1);
+            updatePreviews();
+            updateCounters();
+          });
+          
+          imagePreviews.appendChild(preview);
+          lucide.createIcons();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    
+    function updateCounters() {
+      const count = selectedFiles.length;
+      const selectedCount = document.getElementById('selected-count');
+      const startUpload = document.getElementById('start-upload');
+      const dropZone = document.getElementById('drop-zone');
+      const previewContainer = document.getElementById('preview-container');
+      
+      if (selectedCount) selectedCount.textContent = `(${count})`;
+      if (startUpload) startUpload.disabled = count === 0;
+      
+      // Show/hide drop zone based on selection
+      if (count > 0) {
+        if (dropZone) dropZone.classList.add('hidden');
+        if (previewContainer) previewContainer.classList.remove('hidden');
+      } else {
+        if (dropZone) dropZone.classList.remove('hidden');
+        if (previewContainer) previewContainer.classList.add('hidden');
+      }
+    }
+    
+    // Initialize drag and drop
+    function initDragAndDrop() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('file-input');
+      
+      if (!dropZone || !fileInput) return;
+      
+      // Prevent default drag behaviors
+      ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+      });
+      
+      // Highlight drop zone when item is dragged over it
+      ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, highlight, false);
+      });
+      
+      ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, unhighlight, false);
+      });
+      
+      // Handle dropped files
+      dropZone.addEventListener('drop', handleDrop, false);
+      
+      // Handle click on drop zone
+      dropZone.addEventListener('click', () => fileInput.click());
+      
+      // Handle file selection
+      fileInput.addEventListener('change', handleFiles);
+      
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+      
+      function highlight() {
+        dropZone.classList.add('border-indigo-500', 'bg-indigo-50');
+      }
+      
+      function unhighlight() {
+        dropZone.classList.remove('border-indigo-500', 'bg-indigo-50');
+      }
+      
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles({ target: { files } });
+      }
+      
+      function handleFiles(e) {
+        const files = [...e.target.files];
+        processFiles(files);
+      }
+      
+      function processFiles(files) {
+        // Filter for image files only
+        const imageFiles = files.filter(file => file.type.match('image.*'));
+        
+        if (imageFiles.length === 0) {
+          showToast('Please select image files only (JPG, PNG, WebP)', 'error');
+          return;
+        }
+        
+        // Add to selected files
+        selectedFiles = [...selectedFiles, ...imageFiles];
+        
+        // Update UI
+        updatePreviews();
+        updateCounters();
+      }
+      
+      // Moved to global scope
+    }
+    
+    // Initialize drag and drop when the page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      initDragAndDrop();
+    });
+    
+    // Clear all button
+    document.getElementById('clear-selection').addEventListener('click', () => {
+      selectedFiles = [];
+      updatePreviews();
+      updateCounters();
+    });
+    
+    // Update upload button text based on selected files
+    function updateUploadButton() {
+      fileInput.value = '';
+      previewContainer.classList.add('hidden');
+      dropZone.classList.remove('hidden');
+      
+      // Reset the preview container to initial state
+      imagePreviews.innerHTML = `
+        <div class="text-center py-12 text-gray-500">
+          <i data-lucide="image" class="w-10 h-10 mx-auto mb-2 text-gray-300"></i>
+          <p>No images selected</p>
+          <p class="text-sm text-gray-400 mt-1">Drag and drop images or click to browse</p>
+        </div>
+      `;
+      lucide.createIcons();
+      
+      // Reset counters
+      updateCounters();
+    }
+    
+    // Start Upload
+    startUpload.addEventListener('click', async () => {
+      if (selectedFiles.length === 0) return;
+      
+      const uploadBtn = startUpload;
+      const originalText = uploadBtn.innerHTML;
+      
+      try {
+        // Show loading state
+        uploadBtn.disabled = true;
+        uploadBtn.innerHTML = '<i data-lucide="loader" class="animate-spin w-4 h-4 mr-2"></i> Uploading...';
+        
+        // Upload files sequentially to avoid overloading the server
+        const results = [];
+        const errors = [];
+        
+        for (const file of selectedFiles) {
+          try {
+            const description = document.querySelector(`[data-file-name="${file.name}"]`)?.value || '';
+            const result = await uploadImage(file, description);
+            results.push(result);
+            
+            // Update progress
+            const progress = Math.round((results.length + errors.length) / selectedFiles.length * 100);
+            uploadBtn.innerHTML = `<i data-lucide="loader" class="animate-spin w-4 h-4 mr-2"></i> Uploading... ${progress}%`;
+          } catch (error) {
+            console.error(`Failed to upload ${file.name}:`, error);
+            errors.push({ file: file.name, error: error.message });
+          }
+        }
+        
+        // Show appropriate message based on results
+        if (errors.length === 0) {
+          showToast('All images uploaded successfully!', 'success');
+        } else if (results.length === 0) {
+          throw new Error('Failed to upload any images. Please try again.');
+        } else {
+          showToast(`Uploaded ${results.length} of ${selectedFiles.length} images. ${errors.length} failed.`, 'warning');
+        }
+        
+        // Close modal and reset form if at least one upload succeeded
+        if (results.length > 0) {
+          uploadModal.classList.add('hidden');
+          document.body.style.overflow = 'auto';
+          // Reset the upload form
+          selectedFiles = [];
+          updatePreviews();
+          updateCounters();
+          
+          // Refresh the gallery and stats
+          await Promise.all([
+            fetchGalleryImages(),
+            fetch(`${API_BASE}/images/`).then(res => res.json())
+          ]).then(([_, images]) => {
+            document.getElementById('total-images').textContent = images.length;
+          });
+        }
+        
+      } catch (error) {
+        console.error('Upload error:', error);
+        showToast(error.message || 'Upload failed. Please try again.', 'error');
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = originalText;
+        lucide.createIcons();
+      }
+    });
+    
+    // Show Toast
+    function showToast(message, type = 'success') {
+      toast.className = `fixed bottom-4 right-4 px-6 py-3 rounded-lg shadow-lg transform transition-all duration-300 flex items-center space-x-3 z-50 ${type === 'success' ? 'bg-green-600' : 'bg-red-600'} text-white`;
+      toastMessage.textContent = message;
+      
+      // Show toast
+      setTimeout(() => {
+        toast.classList.remove('translate-y-10', 'opacity-0');
+        toast.classList.add('translate-y-0', 'opacity-100');
+      }, 100);
+      
+      // Hide toast after 3 seconds
+      setTimeout(() => {
+        toast.classList.add('translate-y-10', 'opacity-0');
+      }, 3000);
+    }
+    
+    // Simple day display helper
+    function formatDay(day) {
+      return day || 'Day not specified';
+    }
+    
+    // API Functions
+    async function fetchEvents() {
+      try {
+        const response = await fetch(`${API_BASE}/events/`);
+        if (!response.ok) throw new Error('Failed to fetch events');
+        const events = await response.json();
+        
+        // Pass events directly without date formatting
+        renderEvents(events);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        showToast('Failed to load events', 'error');
+      }
+    }
+    
+    async function createEvent(eventData) {
+      try {
+        const response = await fetch(`${API_BASE}/events/`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(eventData)
+        });
+        
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.detail || 'Failed to create event');
+        }
+        
+        const newEvent = await response.json();
+        showToast('Event created successfully!', 'success');
+        eventModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        eventForm.reset();
+        
+        // Refresh events list
+        fetchEvents();
+        
+        return newEvent;
+      } catch (error) {
+        console.error('Error creating event:', error);
+        showToast(error.message || 'Failed to create event', 'error');
+        throw error;
+      }
+    }
+    
+    async function uploadImage(file, description) {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('description', description);
+      
+      const response = await fetch(`${API_BASE}/images/`, {
+        method: 'POST',
+        body: formData
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.detail || 'Upload failed');
+      }
+      
+      return await response.json();
+    }
+    
+    async function fetchGalleryImages() {
+      try {
+        const response = await fetch(`${API_BASE}/images/`);
+        if (!response.ok) throw new Error('Failed to fetch gallery images');
+        const images = await response.json();
+        renderGallery(images);
+      } catch (error) {
+        console.error('Error fetching gallery images:', error);
+        showToast('Failed to load gallery', 'error');
+      }
+    }
+    
+    // Render Functions
+    function renderEvents(events) {
+      const eventsList = document.getElementById('events-list');
+      
+      if (!events || events.length === 0) {
+        eventsList.innerHTML = `
+          <tr>
+            <td colspan="4" class="px-6 py-4 text-center text-gray-500">
+              No events found. Create your first event to get started.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      // Sort events by creation date (newest first)
+      const sortedEvents = [...events].sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+      
+      eventsList.innerHTML = sortedEvents.map(event => `
+        <tr class="hover:bg-gray-50 transition-colors">
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="text-sm font-medium text-gray-900">${event.name || 'No name'}</div>
+          </td>
+          <td class="px-6 py-4">
+            <div class="text-sm text-gray-600 line-clamp-2" title="${event.description || ''}">
+              ${event.description || 'No description'}
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="text-sm text-gray-900">${event.day || 'Not specified'}</div>
+            ${event.time ? `<div class="text-xs text-gray-500">${event.time}</div>` : ''}
+          </td>
+          <td class="px-6 py-4 text-sm text-gray-500">
+            ${event.location || 'No location'}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+            <button class="text-indigo-600 hover:text-indigo-900 edit-event" data-id="${event.id}" title="Edit">
+              <i data-lucide="edit-2" class="w-4 h-4"></i>
+            </button>
+            <button class="text-red-600 hover:text-red-900 delete-event" data-id="${event.id}" title="Delete">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+      
+      // Re-initialize Lucide icons for the new elements
+      lucide.createIcons();
+      
+      // Add event listeners for edit and delete buttons
+      document.querySelectorAll('.edit-event').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const eventId = e.currentTarget.getAttribute('data-id');
+          // Implement edit functionality
+          showToast('Edit functionality coming soon!', 'info');
+        });
+      });
+      
+      document.querySelectorAll('.delete-event').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          if (confirm('Are you sure you want to delete this event?')) {
+            const eventId = e.currentTarget.getAttribute('data-id');
+            try {
+              const response = await fetch(`${API_BASE}/events/${eventId}`, {
+                method: 'DELETE'
+              });
+              
+              if (!response.ok) throw new Error('Failed to delete event');
+              
+              showToast('Event deleted successfully!', 'success');
+              fetchEvents();
+            } catch (error) {
+              console.error('Error deleting event:', error);
+              showToast('Failed to delete event', 'error');
+            }
+          }
+        });
+      });
+    }
+    
+    function renderGallery(images) {
+      const galleryGrid = document.getElementById('gallery-grid');
+      
+      if (!images || images.length === 0) {
+        galleryGrid.innerHTML = `
+          <div class="col-span-full text-center py-12">
+            <div class="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+              <i data-lucide="image" class="w-8 h-8 text-gray-400"></i>
+            </div>
+            <h4 class="text-lg font-medium text-gray-900">No images yet</h4>
+            <p class="mt-1 text-sm text-gray-500">Upload your first image to get started</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+      
+      // Only show the first 6 images in the dashboard preview
+      const previewImages = images.slice(0, 6);
+      
+      galleryGrid.innerHTML = previewImages.map(image => `
+        <div class="relative group">
+          <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden">
+            <img src="https://church-backend-abdullah4tech5930-m4uqi7dg.leapcell.dev/api/v1/images/serve/${image.uploadthing_key}" alt="${escapeHtml(image.description || 'Gallery image')}" 
+                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          </div>
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <button class="p-2 bg-white bg-opacity-90 rounded-full text-gray-800 hover:bg-opacity-100 transition-colors"
+                    onclick="showImageDetail('${image.id}')">
+              <i data-lucide="maximize-2" class="w-4 h-4"></i>
+            </button>
+            <button class="p-2 bg-white bg-opacity-90 rounded-full text-red-600 hover:bg-opacity-100 transition-colors ml-2 delete-image"
+                    data-id="${image.id}">
+              <i data-lucide="trash-2" class="w-4 h-4"></i>
+            </button>
+          </div>
+          ${image.description ? `
+            <div class="mt-2 text-xs text-gray-600 line-clamp-1">
+              ${escapeHtml(image.description)}
+            </div>
+          ` : ''}
+        </div>
+      `).join('');
+      
+      // Re-initialize Lucide icons for the new elements
+      lucide.createIcons();
+      
+      // Add event listeners for delete buttons
+      document.querySelectorAll('.delete-image').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          if (confirm('Are you sure you want to delete this image?')) {
+            const imageId = e.currentTarget.getAttribute('data-id');
+            try {
+              const response = await fetch(`${API_BASE}/images/${imageId}`, {
+                method: 'DELETE'
+              });
+              
+              if (!response.ok) throw new Error('Failed to delete image');
+              
+              showToast('Image deleted successfully!', 'success');
+              fetchGalleryImages();
+            } catch (error) {
+              console.error('Error deleting image:', error);
+              showToast('Failed to delete image', 'error');
+            }
+          }
+        });
+      });
+    }
+    
+    // Helper function to escape HTML
+    function escapeHtml(unsafe) {
+      if (!unsafe) return '';
+      return unsafe
+        .toString()
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+    
+    // Global function for image detail view (can be expanded)
+    window.showImageDetail = function(imageId) {
+      // Implement image detail view
+      showToast('Image detail view coming soon!', 'info');
+    };
+    
+    // Event Form Submission
+    eventForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(eventForm);
+      const submitBtn = eventForm.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      
+      try {
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i data-lucide="loader" class="animate-spin w-4 h-4 mr-2"></i> Creating...';
+        lucide.createIcons();
+        
+        const eventData = {
+          name: formData.get('title'),
+          description: formData.get('description'),
+          day: formData.get('date'),
+          time: formData.get('time'),
+          location: formData.get('location')
+        };
+        
+        if (!eventData.day) {
+          throw new Error('Day is required');
+        }
+        
+        // Validate required fields
+        if (!eventData.name || !eventData.day) {
+          throw new Error('Please fill in all required fields');
+        }
+        
+        // Create the event
+        await createEvent(eventData);
+        
+        // Show success message and close modal
+        showToast('Event created successfully!', 'success');
+        eventModal.classList.add('hidden');
+        document.body.style.overflow = 'auto';
+        eventForm.reset();
+        
+        // Refresh events list
+        await fetchEvents();
+        
+      } catch (error) {
+        console.error('Error creating event:', error);
+        showToast(error.message || 'Failed to create event', 'error');
+      } finally {
+        // Reset button state
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnText;
+        lucide.createIcons();
+      }
+    });
+    
+    // Initialize the dashboard
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchEvents();
+      fetchGalleryImages();
+    });
+  </script>
+</body>
+</html>

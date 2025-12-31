@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8" />
+    <title>Hesed - About</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
+    
+    <!-- Pastor Profile Styles -->
+    <style>
+      .pastor-profile {
+        display: flex;
+        gap: 4rem;
+        margin: 4rem 0 6rem 0;
+        align-items: flex-start;
+        background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+        padding: 4rem;
+        border-radius: 10px;
+      }
+
+      .pastor-image-container {
+        flex-shrink: 0;
+        position: relative;
+        width: 350px;
+      }
+
+      .pastor-image {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(59, 13, 17, 0.2);
+        border: 5px solid #ffffff;
+        display: block;
+      }
+
+      .pastor-name-badge {
+        background: linear-gradient(135deg, #3b0d11 0%, #7d1c24 100%);
+        color: #ffffff;
+        padding: 2rem;
+        text-align: center;
+        border-radius: 8px;
+        margin-top: -3rem;
+        position: relative;
+        z-index: 1;
+        box-shadow: 0 5px 15px rgba(59, 13, 17, 0.3);
+      }
+
+      .pastor-name-badge h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: #ffffff;
+      }
+
+      .pastor-name-badge p {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #fb8b23;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+      }
+
+      .pastor-bio {
+        flex: 1;
+      }
+
+      .pastor-bio p {
+        font-size: 1.7rem;
+        line-height: 1.9;
+        margin-bottom: 2rem;
+        color: #333;
+        text-align: justify;
+      }
+
+      .pastor-credentials {
+        background-color: #fff5e6;
+        border-left: 4px solid #fb8b23;
+        padding: 2.4rem;
+        margin-top: 3rem;
+        border-radius: 5px;
+      }
+
+      .pastor-credentials h4 {
+        color: #3b0d11;
+        font-size: 2rem;
+        margin: 0 0 1.6rem 0;
+        font-weight: 700;
+      }
+
+      .pastor-credentials ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .pastor-credentials ul li {
+        padding: 0.8rem 0;
+        padding-left: 2.5rem;
+        position: relative;
+        font-size: 1.6rem;
+        color: #333;
+        line-height: 1.6;
+      }
+
+      .pastor-credentials ul li::before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #fb8b23;
+        font-weight: 700;
+        font-size: 1.8rem;
+      }
+
+      /* Responsive Design */
+      @media screen and (max-width: 1000px) {
+        .pastor-profile {
+          flex-direction: column;
+          padding: 3rem;
+          gap: 3rem;
+        }
+
+        .pastor-image-container {
+          width: 100%;
+          max-width: 400px;
+          margin: 0 auto;
+        }
+
+        .pastor-bio p {
+          text-align: left;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .pastor-profile {
+          padding: 2rem;
+          gap: 2rem;
+        }
+
+        .pastor-image-container {
+          max-width: 300px;
+        }
+
+        .pastor-name-badge h3 {
+          font-size: 1.9rem;
+        }
+
+        .pastor-name-badge p {
+          font-size: 1.3rem;
+        }
+
+        .pastor-bio p {
+          font-size: 1.6rem;
+        }
+
+        .pastor-credentials {
+          padding: 2rem;
+        }
+
+        .pastor-credentials h4 {
+          font-size: 1.8rem;
+        }
+
+        .pastor-credentials ul li {
+          font-size: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+
+  <body id="top">
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+      <div id="loader" class="dots-jump">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+      <div class="header-logo">
+        <a class="site-logo" href="index.html">
+          <!-- <img src="images/logo.svg" alt="Homepage"> -->
+          <h1 style="color: white; font-size: 1.5rem; line-height: 1.2">
+            Trumpet of God<br />Evangelical Ministry
+          </h1>
+        </a>
+      </div>
+
+      <nav class="header-nav-wrap">
+        <ul class="header-nav">
+          <li><a href="index.html" title="Home">Home</a></li>
+          <li class="current"><a href="about.html" title="About">About</a></li>
+          <li><a href="events.html" title="Services">Events</a></li>
+          <li><a href="gallery.html" title="Gallery">Gallery</a></li>
+          <li><a href="contact.html" title="Contact us">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+    </header>
+    <!-- end s-header -->
+
+    <!-- page header
+    ================================================== -->
+    <section class="page-header page-header--about">
+      <div class="gradient-overlay"></div>
+      <div class="row page-header__content">
+        <div class="column">
+          <h1 class="animate-on-scroll">About Us</h1>
+        </div>
+      </div>
+    </section>
+    <!-- end page-header -->
+
+    <!-- page content
+    ================================================== -->
+    <section class="page-content">
+      <div class="row">
+        <div class="column">
+          <div class="row">
+            <div class="column large-full">
+              <h2 class="animate-on-scroll">Statement of Faith</h2>
+              <p class="lead animate-on-scroll animate-delay-100">
+                We believe in the Holy Bible, comprising both the Old and New
+                Testaments as the inspired word of God of which the New does not
+                condemn the Old, but the fulfilment of the latter. We believe
+                that the bloodshed, death and resurrection of our Lord and
+                Saviour Jesus Christ for the reconciliation of man to God, is a
+                foundation which the conquest over death and hell by Christ for
+                mankind is based
+              </p>
+
+              <h2 class="animate-on-scroll">About The General Overseer</h2>
+              
+              <!-- Pastor Profile Section -->
+              <div class="pastor-profile animate-on-scroll animate-delay-100">
+                <div class="pastor-image-container">
+                  <img src="images/Picture1.png" alt="Rev. Dr. Davidson O. Kormoi" class="pastor-image" />
+                  <div class="pastor-name-badge">
+                    <h3>Rev. Dr. Davidson O. Kormoi</h3>
+                    <p>General Overseer & Founder</p>
+                  </div>
+                </div>
+                
+                <div class="pastor-bio">
+              <p class="animate-on-scroll animate-delay-100">
+                Rev. Davidson O. Kormoi was born in Moyowa in the Jong Chiefdom,
+                Bonthe District, Republic of Sierra Leone. He attended
+                Centennial Secondary School in Mattru Jong and the Kay School in
+                Kenema Respectively. He briefly taught at the Pampana High
+                School and later at the Government Secondary School for Boys in
+                Magburaka.
+              </p>
+              <p>
+                He worked at the Central Bank of Sierra Leone and retired in a
+                senior Management position. He lectured part time at the Sierra
+                Leone Theological College in Freetown and he is at present
+                Associate lecturer, school of postgraduate studies, Njala
+                University, Freetown and Bo. He is also the founder and General
+                Overseer of the Trumpet of God Evangelical Ministry. He holds a
+                PhD in Business Administration, MBA (Finance), MSc (Agric.
+                Econ), CPS, etc.
+              </p>
+              <p>
+                Dr. Kormoi is a writer and consultant, the Author of Dark
+                Shadows, and the end of Dark Shadows, memoires now on amazon. He
+                is also the author of “The Central bank of Mendenesia” and
+                “Eight morale boosting short stories for progressive youths and
+                young adults.” He desires that every member of his church is
+                saved, prospers on earth and gains heaven through total
+                submission to Jesus Christ and obeying His commandments.
+              </p>
+            </div>
+          </div>
+          <!-- End Pastor Profile Section -->
+
+              <h2 class="animate-on-scroll">Our Vision</h2>
+              <p class="animate-on-scroll animate-delay-100">
+                Our vision is to preach the undiluted and or the uncompromised
+                word of God to all mankind that they would be saved. To help the
+                poor and needy by way of empowerment through the provision of
+                physical, financial and spiritual assistance where applicable
+              </p>
+
+              <h2 class="animate-on-scroll">Background of Ministry</h2>
+              <p class="animate-on-scroll animate-delay-100">
+                In 2003, Christ the King Evangelical Ministry was Established at
+                quarry, back of hotel 510, in a make-shift school compound
+                paying a rent of 300 Leones per annum to the Proprietor of the
+                school. Quarry was a large establishment in the North west
+                corner of Freetown, with a large Muslim population and other
+                faiths. There was a large group of fetish priests, herbalists
+                and Juju mongers in the said community. The practice of
+                Christianity became a threat to all other practitioners of faith
+                and we were considered enemies.
+              </p>
+              <p>
+                The battle became so strong that the Muslim clerics announced
+                that no land should be sold to us in Quarry. The president of
+                the Herbalists and all Fetish priests Association bought the
+                make shift school, where we were holding services and we were
+                driven from the school. Somebody gave us an unfinished unroofed
+                house where we kept services. We used tarpaulins to cover part
+                of the structure from the rain during services
+              </p>
+              <p>
+                Shortly after these events, my office, the Bank of Sierra Leone,
+                sent me to Boulder, Colorado, USA for two months to study
+                supervision of Micro Finance Banks and other financial
+                Institutions. It was there I met a man whom I have never known,
+                a man with the heart of God, a white American Citizen, Mr. Leon
+                Palmer. This Man drove us in his car to our university residence
+                and invited us to his house for dinner. We exchanged contacts
+                and after my return to Sierra Leone, I explained to him all that
+                had befallen the church. He asked me, “What do you want me to
+                do?” I told him I needed tarpaulins and sticks to put up a
+                makeshift church. This man sent USD4,810 at intervals and we
+                were able to build the present church in addition to our own
+                resources.
+              </p>
+              <p>
+                However, we were outwitted by a Judas who purported to be a
+                pastor in the church. He came to the church when I was in
+                America, and seeing our plight he announced that his
+                father-in-law had land which we can use to build our church. I
+                announced to the church that I have received 4,810 dollars for
+                our church. I had a genuine motive but this pastor had a wrong
+                motive. Agreement was reached for me to sacrifice one town plot
+                of land I had in West end of Freetown for their plot of land in
+                quarry, where we should build the church. It was an oral
+                agreement and believing that we were all Christians, it should
+                be a reliable agreement. No sooner had we bought all the
+                materials and assembled them at the site, than the pastor and
+                his father-in-law changed their minds. They said the land was
+                for lease. Sadly, we agreed because we could not take the sand,
+                the blocks and the other materials back and we had no place for
+                storage. Up till now we are paying lease rent for a church house
+                we have built. In 2025, the lease rent was astronomically
+                increased from 2,000 Leones per annum to Le10,000 per annum
+                otherwise we were to be evicted. So, to God be the glory. Our
+                goal is to buy our own land and build our own church, hence an
+                appeal to donors and philanthropists.
+              </p>
+              <p>
+                In the year 2009, we changed the name of the Church from Christ
+                the King Family to The Trumpet of God Evangelical Ministry by
+                the Inspiration of the Holy Spirit to properly align with our
+                vision based on the scripture in 1st Thessalonians 4:16. It was
+                in Line with the Lords call for end times messages to prepare
+                the minds of people for the coming of the Lord.
+              </p>
+
+              <h2 class="animate-on-scroll">Welfare</h2>
+              <p class="animate-on-scroll animate-delay-100">
+                We cater for the welfare of our members who are vulnerable in
+                specific areas. We cater for coffins, support weddings to avoid
+                co-habitations, help with business capital where extremely
+                necessary to salvage devoted but disadvantaged members,
+                particularly widows and or orphans, or the physically
+                challenged. We also help with medical bills where genuinely
+                necessary. Finally, we maintain a counselling session where
+                advises and disputes are amicably settled
+              </p>
+              <p>
+                We extend helping hands to the less fortunate in the church,
+                help to pay school and college fees to some students, and of
+                late we are thinking of school dropouts and drug related
+                consequences through counselling and rehab facilities. This
+                would require external assistance by way of donors and well
+                wishers
+              </p>
+
+              <h2 class="animate-on-scroll">Our Goals For 2026 - 2030</h2>
+              <p class="animate-on-scroll animate-delay-100">
+                For 2026, we would like to support 20 students in technical and
+                vocational colleges pursuing technical qualifications in
+                Building and construction courses, Electrical and electronic
+                engineering, Plumbing, Refrigerator engineering, civil
+                engineering, carpentry, automobile engineering all at
+                certificate and Diploma levels.
+              </p>
+              <p>
+                We would also like to help 40 vulnerable widows with average
+                capital for small and medium enterprises.
+              </p>
+              <p>
+                We would also like to support 40 orphans in primary and
+                secondary schools. Support depends on the availability of funds.
+                We may include pictures of widows and orphans at their
+                discretion, on our web page to solicit funds from
+                philanthropists and well-wishers who would like to support
+                vulnerable people. Such funds are strictly controlled by our
+                church to avoid abuse, misuse and or scamming.
+              </p>
+
+              <h2 class="animate-on-scroll">New Projects</h2>
+              <h3 class="animate-on-scroll">
+                FIGHT AGAINST DRUG ABUSE AND TO HELP ITS USERS
+              </h3>
+              <p>
+                We need urgent help to locate, preach and rehabilitate youths
+                and young adults who have grossly abused and misused drugs and
+                other harmful substances, who have now become homeless, leading
+                to untimely deaths
+              </p>
+
+              <h3 class="animate-on-scroll">MICRO FINANCE WINDOW</h3>
+              <p>
+                We have organized a micro finance window strictly for
+                economically active poor church members at least for now. WE
+                shall be relying on donors and philanthropists to provide seed
+                capital for this venture. Fortunately, the General Overseer is a
+                Boulder trained MFI and MF bank specialist and at one time head
+                of Micro Finance Unit at Bank of Sierra Leone
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end page content -->
+
+    <!-- Social
+    ================================================== -->
+
+    <!-- end s-social -->
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer">
+      <div class="row footer-top">
+        <div class="column large-4 medium-5 tab-full">
+          <div class="footer-logo">
+            <a class="site-footer-logo" href="index.html">
+              <!-- <img src="images/logo.svg" alt="Homepage"> -->
+              <h1 style="color: white; font-size: 1.5rem; line-height: 1.2">
+                Trumpet of God<br />Evangelical Ministry
+              </h1>
+            </a>
+          </div>
+          <!-- footer-logo -->
+          <p>
+            We believe in the Holy Bible, comprising both the Old and New
+            Testaments as the inspired word of God.
+          </p>
+        </div>
+        <div class="column large-half tab-full">
+          <div class="row">
+            <div class="column large-7 medium-full">
+              <h4 class="h6">Our Location</h4>
+              <p>
+                160 OFF BAI BUREH ROAD, <br />
+                KISSY, BACK OF HOTEL 510 <br />
+                BY WATER TANK
+              </p>
+
+              <p>
+                <a
+                  href="https://goo.gl/maps/bc7C7eYtSmnNs6216"
+                  target="_blank"
+                  class="btn btn--footer"
+                  >Get Direction</a
+                >
+              </p>
+            </div>
+            <div class="column large-5 medium-full">
+              <h4 class="h6">Follow Us</h4>
+              <ul class="footer-list">
+                <li><a href="#0">Facebook</a></li>
+                <li><a href="#0">YouTube</a></li>
+                <li><a href="#0">Instagram</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end footer-top -->
+
+      <div class="row footer-bottom">
+        <div class="column ss-copyright">
+          <span>© Copyright 2025 Trumpet of God Evangelical Ministry</span>
+        </div>
+      </div>
+      <!-- footer-bottom -->
+
+      <div class="ss-go-top">
+        <a class="smoothscroll" title="Back to Top" href="#top">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 0l8 9h-6v15h-4v-15h-6z" />
+          </svg>
+        </a>
+      </div>
+      <!-- ss-go-top -->
+    </footer>
+    <!-- end s-footer -->
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>

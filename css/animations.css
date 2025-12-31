@@ -1,0 +1,33 @@
+/* ===================================================================
+ * # animations
+ * ------------------------------------------------------------------- */
+.animate-on-scroll {
+  opacity: 0;
+  -webkit-transform: translateY(30px);
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.215, 0.61, 0.355, 1);
+  will-change: transform, opacity;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.animate-delay-100 {
+  transition-delay: 0.1s;
+}
+.animate-delay-200 {
+  transition-delay: 0.2s;
+}
+.animate-delay-300 {
+  transition-delay: 0.3s;
+}
+.animate-delay-400 {
+  transition-delay: 0.4s;
+}
+.animate-delay-500 {
+  transition-delay: 0.5s;
+}

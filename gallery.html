@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <head>
+    <!--- basic page needs
+    ================================================== -->
+    <meta charset="utf-8" />
+    <title>Gallery - The Trumpet of God Evangelical Ministry</title>
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/animations.css" />
+
+    <!-- script
+    ================================================== -->
+    <script src="js/modernizr.js"></script>
+
+    <!-- favicons
+    ================================================== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="manifest" href="site.webmanifest" />
+
+    <style>
+      /* Gallery Specific Styles */
+      .gallery-filters {
+        text-align: center;
+        padding: 4rem 0;
+        background-color: #f9f9f9;
+      }
+
+      .gallery-filters h3 {
+        font-size: 2.4rem;
+        margin-bottom: 2rem;
+        color: #3b0d11;
+      }
+
+      .filter-buttons {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .filter-btn {
+        padding: 1rem 2.4rem;
+        background-color: #ffffff;
+        border: 2px solid #3b0d11;
+        color: #3b0d11;
+        font-size: 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+        border-radius: 3px;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+      }
+
+      .filter-btn:hover,
+      .filter-btn.active {
+        background-color: #3b0d11;
+        color: #ffffff;
+      }
+
+      .gallery-timeline {
+        padding: 8rem 0;
+        background-color: #ffffff;
+      }
+
+      .timeline-item {
+        margin-bottom: 8rem;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 0.6s forwards;
+      }
+
+      .timeline-item:nth-child(even) {
+        animation-delay: 0.1s;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .timeline-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 3.2rem;
+        padding-bottom: 2rem;
+        border-bottom: 3px solid #fb8b23;
+      }
+
+      .timeline-date {
+        background-color: #3b0d11;
+        color: #ffffff;
+        padding: 1.6rem 3.2rem;
+        font-size: 2rem;
+        font-weight: 700;
+        border-radius: 5px;
+        margin-right: 2.4rem;
+        min-width: 180px;
+        text-align: center;
+      }
+
+      .timeline-title {
+        flex: 1;
+      }
+
+      .timeline-title h3 {
+        font-size: 2.8rem;
+        margin: 0;
+        color: #3b0d11;
+      }
+
+      .timeline-title p {
+        font-size: 1.6rem;
+        color: #646464;
+        margin: 0.5rem 0 0 0;
+      }
+
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 2.4rem;
+        margin-bottom: 3.2rem;
+      }
+
+      .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: 5px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        cursor: pointer;
+        aspect-ratio: 4/3;
+        background-color: #f5f5f5;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.05);
+      }
+
+      .gallery-item-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+        padding: 2rem;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+
+      .gallery-item:hover .gallery-item-overlay {
+        opacity: 1;
+      }
+
+      .gallery-item-overlay p {
+        color: #ffffff;
+        margin: 0;
+        font-size: 1.4rem;
+      }
+
+      .event-description {
+        background-color: #f9f9f9;
+        padding: 2.4rem;
+        border-left: 4px solid #fb8b23;
+        margin-bottom: 3.2rem;
+        border-radius: 3px;
+      }
+
+      .event-description p {
+        margin: 0;
+        font-size: 1.6rem;
+        line-height: 1.8;
+        color: #000000;
+      }
+
+      /* Responsive */
+      @media screen and (max-width: 1000px) {
+        .gallery-grid {
+          grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+          gap: 2rem;
+        }
+
+        .timeline-date {
+          font-size: 1.8rem;
+          padding: 1.2rem 2.4rem;
+          min-width: 150px;
+        }
+
+        .timeline-title h3 {
+          font-size: 2.4rem;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .timeline-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .timeline-date {
+          margin-right: 0;
+          margin-bottom: 1.6rem;
+        }
+
+        .gallery-grid {
+          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          gap: 1.6rem;
+        }
+
+        .filter-buttons {
+          gap: 0.8rem;
+        }
+
+        .filter-btn {
+          padding: 0.8rem 1.6rem;
+          font-size: 1.2rem;
+        }
+      }
+
+      @media screen and (max-width: 500px) {
+        .gallery-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body id="top">
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader">
+      <div id="loader" class="dots-jump">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <!-- header
+    ================================================== -->
+    <header class="s-header">
+      <div class="header-logo">
+        <a class="site-logo" href="index.html">
+          <h1 style="color: white; font-size: 1.5rem; line-height: 1.2">
+            Trumpet of God<br />Evangelical Ministry
+          </h1>
+        </a>
+      </div>
+
+      <nav class="header-nav-wrap">
+        <ul class="header-nav">
+          <li><a href="index.html" title="Home">Home</a></li>
+          <li><a href="about.html" title="About">About</a></li>
+          <li><a href="events.html" title="Services">Events</a></li>
+          <li class="current"><a href="gallery.html" title="Gallery">Gallery</a></li>
+          <li><a href="contact.html" title="Contact us">Contact</a></li>
+        </ul>
+      </nav>
+
+      <a class="header-menu-toggle" href="#0"><span>Menu</span></a>
+    </header>
+    <!-- end s-header -->
+
+    <!-- page header
+    ================================================== -->
+    <section class="page-header page-header--gallery">
+      <div class="gradient-overlay"></div>
+      <div class="row page-header__content">
+        <div class="column">
+          <h1>Gallery</h1>
+          <p>
+            Celebrating our journey together through faith, fellowship, and service
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- end page-header -->
+
+    <!-- gallery filters
+    ================================================== -->
+    <section class="gallery-filters">
+      <div class="row">
+        <div class="column">
+          <h3>Filter by Year</h3>
+          <div class="filter-buttons" id="year-filters">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <!-- Year filters will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- gallery timeline
+    ================================================== -->
+    <section class="gallery-timeline">
+      <div class="row">
+        <div class="column" id="gallery-container">
+          <!-- Content will be loaded dynamically from the API -->
+        </div>
+        
+      </div>
+    </section>
+    <!-- end gallery-timeline -->
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const galleryContainer = document.getElementById('gallery-container');
+        const apiUrl = 'https://church-backend-abdullah4tech5930-m4uqi7dg.leapcell.dev/api/v1/images/grouped';
+
+        // Function to format date
+        function formatDate(dateString) {
+          const options = { year: 'numeric', month: 'long' };
+          return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Function to create gallery items
+        function createGalleryItem(image) {
+          return `
+            <div class="gallery-item">
+              <img src="https://church-backend-abdullah4tech5930-m4uqi7dg.leapcell.dev/api/v1/images/serve/${image.uploadthing_key}" alt="${image.description || 'Gallery image'}">
+              ${image.description ? `
+                <div class="gallery-item-overlay">
+                  <p>${image.description}</p>
+                </div>
+              ` : ''}
+            </div>
+          `;
+        }
+
+        // Function to create timeline section
+        function createTimelineSection(year, month, images) {
+          const date = new Date(year, month - 1);
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          
+          return `
+            <div class="timeline-item" data-year="${year}">
+              <div class="timeline-header">
+                <div class="timeline-date">${monthName} ${year}</div>
+                <div class="timeline-title">
+                  <h3>${monthName} Gallery</h3>
+                  <p>${images.length} images</p>
+                </div>
+              </div>
+              <div class="gallery-grid">
+                ${images.map(img => createGalleryItem(img)).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        // Function to update year filters
+        function updateYearFilters(years) {
+          const filtersContainer = document.getElementById('year-filters');
+          // Keep the 'All' button and add year buttons
+          const allButton = filtersContainer.querySelector('[data-filter="all"]');
+          filtersContainer.innerHTML = '';
+          filtersContainer.appendChild(allButton);
+          
+          // Add year filter buttons
+          years.forEach(year => {
+            const button = document.createElement('button');
+            button.className = 'filter-btn';
+            button.dataset.filter = year;
+            button.textContent = year;
+            button.addEventListener('click', filterByYear);
+            filtersContainer.appendChild(button);
+          });
+        }
+
+        // Function to filter timeline items by year
+        function filterByYear(e) {
+          const year = this.dataset.filter;
+          const buttons = document.querySelectorAll('.filter-btn');
+          
+          // Update active state
+          buttons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Show/hide timeline items
+          const items = document.querySelectorAll('.timeline-item');
+          items.forEach(item => {
+            if (year === 'all' || item.dataset.year === year) {
+              item.style.display = 'block';
+              // Trigger animation
+              item.style.animation = 'none';
+              item.offsetHeight; // Trigger reflow
+              item.style.animation = 'fadeInUp 0.6s forwards';
+            } else {
+              item.style.display = 'none';
+            }
+          });
+        }
+
+        // Fetch and display gallery data
+        fetch(apiUrl)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            return response.json();
+          })
+          .then(data => {
+            if (data && data.year) {
+              let html = '';
+              const years = [];
+              
+              // Loop through years
+              for (const [year, months] of Object.entries(data.year)) {
+                years.push(year);
+                // Loop through months
+                for (const [month, data] of Object.entries(months)) {
+                  if (data.images && data.images.length > 0) {
+                    const monthNumber = new Date(`${month} 1, 2000`).getMonth() + 1;
+                    html += createTimelineSection(year, monthNumber, data.images);
+                  }
+                }
+              }
+              
+              // Update the gallery content
+              galleryContainer.innerHTML = html;
+              
+              // Update year filters with years from the response
+              updateYearFilters(years);
+              
+              // Add click event listeners to filter buttons
+              document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', filterByYear);
+              });
+              
+              // Initialize any animations or lightbox after content is loaded
+              if (typeof initLightbox === 'function') {
+                initLightbox();
+              }
+            }
+          })
+          .catch(error => {
+            console.error('Error loading gallery:', error);
+            galleryContainer.innerHTML = `
+              <div class="alert-box alert-box--error">
+                <div class="alert-box__icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                  </svg>
+                </div>
+                <div class="alert-box__content">
+                  <h4>Error Loading Gallery</h4>
+                  <p>Could not load gallery images. Please try again later.</p>
+                </div>
+              </div>
+            `;
+          });
+      });
+    </script>
+
+    <!-- footer
+    ================================================== -->
+    <footer class="s-footer">
+      <div class="row footer-top">
+        <div class="column large-4 medium-5 tab-full">
+          <div class="footer-logo">
+            <a href="index.html">
+              <h3 style="color: white">
+                Trumpet of God<br />Evangelical Ministry
+              </h3>
+            </a>
+          </div>
+          <p>
+            Preaching the undiluted word of God to all mankind for salvation and 
+            helping the poor and needy through empowerment.
+          </p>
+        </div>
+
+        <div class="column large-half tab-full">
+          <div class="row">
+            <div class="column large-7 medium-full">
+              <h4 class="h6">Contact Info</h4>
+              <p>
+                160 OFF BAI BUREH ROAD, <br />
+                KISSY, BACK OF HOTEL 510 <br />
+                BY WATER TANK<br />
+                <br />
+                <a href="tel:+23277000000">+232 77 000 000</a>
+              </p>
+            </div>
+
+            <div class="column large-5 medium-full">
+              <h4 class="h6">Follow Us</h4>
+              <ul class="footer-list">
+                <li><a href="#0">Facebook</a></li>
+                <li><a href="#0">YouTube</a></li>
+                <li><a href="#0">Instagram</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end footer-top -->
+
+      <div class="row footer-bottom">
+        <div class="column ss-copyright">
+          <span>© Copyright Trumpet of God 2025</span>
+        </div>
+      </div>
+
+      <!-- Go To Top -->
+      <div class="ss-go-top">
+        <a class="smoothscroll" title="Back to Top" href="#top">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M12 0l8 9h-6v15h-4v-15h-6z" />
+          </svg>
+        </a>
+      </div>
+      <!-- end go-top -->
+    </footer>
+    <!-- end s-footer -->
+
+    <!-- Java Script
+    ================================================== -->
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+      // Gallery Filter Functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const timelineItems = document.querySelectorAll('.timeline-item');
+
+        filterBtns.forEach(btn => {
+          btn.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterBtns.forEach(b => b.classList.remove('active'));
+            // Add active class to clicked button
+            this.classList.add('active');
+
+            const filterValue = this.getAttribute('data-filter');
+
+            timelineItems.forEach(item => {
+              if (filterValue === 'all' || item.getAttribute('data-year') === filterValue) {
+                item.style.display = 'block';
+                // Re-trigger animation
+                item.style.animation = 'none';
+                setTimeout(() => {
+                  item.style.animation = 'fadeInUp 0.6s forwards';
+                }, 10);
+              } else {
+                item.style.display = 'none';
+              }
+            });
+          });
+        });
+
+        // Lightbox functionality (simple version)
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        galleryItems.forEach(item => {
+          item.addEventListener('click', function() {
+            const img = this.querySelector('img');
+            // You can add a lightbox library here for better image viewing
+            // For now, this just logs the action
+            console.log('Gallery item clicked:', img.alt);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
